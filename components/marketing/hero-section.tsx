@@ -8,7 +8,7 @@ export function HeroSection() {
     <section className="section-space overflow-hidden">
       <div className="container-shell grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
         <MotionFade className="space-y-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#2f2336]/10 bg-white/70 px-4 py-2 text-xs uppercase tracking-[0.26em] marketing-kicker">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#4a342e]/10 bg-white/70 px-4 py-2 text-xs uppercase tracking-[0.26em] marketing-kicker">
             <Sparkles className="h-4 w-4" />
             Agency + SaaS Platform
           </div>
@@ -25,8 +25,8 @@ export function HeroSection() {
             <Button href="/case-studies" variant="secondary">
               Explore Case Studies
             </Button>
-            <div className="inline-flex items-center gap-2 text-sm text-[#6f6478]">
-              <Play className="h-4 w-4 text-[#b2513f]" />
+            <div className="inline-flex items-center gap-2 text-sm text-[#746770]">
+              <Play className="h-4 w-4 text-[#9c6b46]" />
               Platform walkthrough available on request
             </div>
           </div>
@@ -34,18 +34,18 @@ export function HeroSection() {
 
         <MotionFade delay={0.15}>
           <GlassCard className="relative overflow-hidden rounded-[32px] p-0">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(240,138,104,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(91,75,199,0.14),transparent_30%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(184,132,98,0.16),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(90,65,93,0.16),transparent_30%)]" />
             <div className="relative space-y-5 p-6">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="marketing-card rounded-3xl border p-5">
-                  <div className="text-sm text-[#6f6478]">Monthly pipeline attributed</div>
-                  <div className="mt-3 text-4xl font-semibold text-[#24172f]">$482k</div>
-                  <div className="mt-2 text-sm text-emerald-300">+18.4% vs last month</div>
+                  <div className="text-sm text-[#746770]">Monthly pipeline attributed</div>
+                  <div className="mt-3 text-4xl font-semibold text-[#24131f]">$482k</div>
+                  <div className="mt-2 text-sm text-[#9c6b46]">+18.4% vs last month</div>
                 </div>
                 <div className="marketing-card rounded-3xl border p-5">
-                  <div className="text-sm text-[#6f6478]">Content approval rate</div>
-                  <div className="mt-3 text-4xl font-semibold text-[#24172f]">94%</div>
-                  <div className="mt-2 text-sm text-[#b2513f]">Across 8 active brands</div>
+                  <div className="text-sm text-[#746770]">Content approval rate</div>
+                  <div className="mt-3 text-4xl font-semibold text-[#24131f]">94%</div>
+                  <div className="mt-2 text-sm text-[#9c6b46]">Across 8 active brands</div>
                 </div>
               </div>
 
@@ -61,14 +61,14 @@ export function HeroSection() {
                   <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
                     <div className="mb-4 flex items-center justify-between">
                       <div>
-                        <div className="text-xs uppercase tracking-[0.28em] text-[#cfc5d9]">Campaign velocity</div>
+                        <div className="text-xs uppercase tracking-[0.28em] text-[#d6c6b9]">Campaign velocity</div>
                         <div className="mt-1 text-xl font-semibold text-white">Quarterly performance</div>
                       </div>
-                      <div className="rounded-full bg-emerald-400/12 px-3 py-1 text-xs text-emerald-300">
+                      <div className="rounded-full bg-[#b88462]/15 px-3 py-1 text-xs text-[#f0c8aa]">
                         +32%
                       </div>
                     </div>
-                    <div className="h-40 rounded-3xl bg-[linear-gradient(180deg,rgba(105,226,255,0.18),transparent),linear-gradient(90deg,rgba(105,226,255,0.5),rgba(139,92,246,0.5),rgba(255,143,112,0.6))] opacity-90 [clip-path:polygon(0%_88%,18%_70%,35%_78%,54%_40%,71%_52%,86%_20%,100%_0%,100%_100%,0%_100%)]" />
+                    <div className="h-40 rounded-3xl bg-[linear-gradient(180deg,rgba(184,132,98,0.14),transparent),linear-gradient(90deg,rgba(96,74,98,0.55),rgba(184,132,98,0.65),rgba(233,202,174,0.7))] opacity-90 [clip-path:polygon(0%_88%,18%_70%,35%_78%,54%_40%,71%_52%,86%_20%,100%_0%,100%_100%,0%_100%)]" />
                   </div>
                   <div className="space-y-4">
                     {[
@@ -77,7 +77,7 @@ export function HeroSection() {
                       ["Assets approved", "86"],
                     ].map(([label, value]) => (
                       <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
-                        <div className="text-sm text-[#cfc5d9]">{label}</div>
+                        <div className="text-sm text-[#d6c6b9]">{label}</div>
                         <div className="mt-2 text-3xl font-semibold text-white">{value}</div>
                       </div>
                     ))}

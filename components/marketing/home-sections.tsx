@@ -14,9 +14,9 @@ export function TrustedBySection() {
           <p className="text-center text-xs uppercase tracking-[0.32em] text-muted">
             Trusted by founders, operators, and growth teams
           </p>
-          <div className="grid grid-cols-2 gap-4 rounded-[32px] border border-[#2f2336]/8 bg-white/60 p-6 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-4 rounded-[32px] border border-[#4a342e]/8 bg-[rgba(255,251,246,0.74)] p-6 sm:grid-cols-3 lg:grid-cols-6">
             {brands.map((brand) => (
-              <div key={brand} className="rounded-2xl border border-[#2f2336]/8 bg-white/70 px-5 py-4 text-center text-lg font-medium text-[#35253f]">
+              <div key={brand} className="rounded-2xl border border-[#4a342e]/8 bg-[rgba(255,253,250,0.84)] px-5 py-4 text-center text-lg font-medium text-[#3b2830]">
                 {brand}
               </div>
             ))}
@@ -41,9 +41,9 @@ export function ServicesSection() {
             <MotionFade key={service.title} delay={index * 0.08}>
               <GlassCard className="h-full rounded-[30px] bg-white/70">
                 <div className="space-y-4">
-                  <div className="text-sm uppercase tracking-[0.28em] text-[#b2513f]">0{index + 1}</div>
-                  <h3 className="text-2xl font-semibold text-[#24172f]">{service.title}</h3>
-                  <p className="text-sm leading-7 text-[#6f6478]">{service.description}</p>
+                  <div className="text-sm uppercase tracking-[0.28em] text-[#9c6b46]">0{index + 1}</div>
+                  <h3 className="text-2xl font-semibold text-[#24131f]">{service.title}</h3>
+                  <p className="text-sm leading-7 text-[#746770]">{service.description}</p>
                 </div>
               </GlassCard>
             </MotionFade>
@@ -70,8 +70,8 @@ export function ExpertiseSection() {
             {expertise.map((item) => (
               <GlassCard key={item} className="rounded-[28px]">
                 <div className="flex items-center justify-between">
-                  <div className="text-lg font-medium text-[#24172f]">{item}</div>
-                  <CheckCircle2 className="h-5 w-5 text-[#b2513f]" />
+                  <div className="text-lg font-medium text-[#24131f]">{item}</div>
+                  <CheckCircle2 className="h-5 w-5 text-[#9c6b46]" />
                 </div>
               </GlassCard>
             ))}
@@ -99,9 +99,9 @@ export function WhyChooseUsSection() {
           <GlassCard className="rounded-[34px] p-7">
             <div className="space-y-5">
               {points.map((point) => (
-                <div key={point} className="flex gap-4 rounded-3xl border border-white/8 bg-white/[0.03] p-5">
-                  <div className="mt-1 h-3 w-3 rounded-full bg-gradient-to-r from-brand to-coral" />
-                  <p className="text-sm leading-7 text-[#6f6478]">{point}</p>
+                <div key={point} className="flex gap-4 rounded-3xl border border-[#4a342e]/8 bg-[rgba(255,252,248,0.72)] p-5">
+                  <div className="mt-1 h-3 w-3 rounded-full bg-gradient-to-r from-[#5a415d] to-[#b88462]" />
+                  <p className="text-sm leading-7 text-[#746770]">{point}</p>
                 </div>
               ))}
             </div>
@@ -122,11 +122,11 @@ export function CaseStudiesSection() {
             <MotionFade key={item.title} delay={index * 0.08}>
               <GlassCard className="rounded-[30px]">
                 <div className="space-y-5">
-                  <div className="text-xs uppercase tracking-[0.28em] text-[#8f7d86]">{item.category}</div>
-                  <h3 className="text-2xl font-semibold text-[#24172f]">{item.title}</h3>
-                  <div className="flex items-center justify-between rounded-2xl border border-[#2f2336]/8 bg-white/70 px-4 py-3">
-                    <span className="text-sm text-[#6f6478]">Headline result</span>
-                    <span className="text-sm font-semibold text-[#b2513f]">{item.result}</span>
+                  <div className="text-xs uppercase tracking-[0.28em] text-[#93827c]">{item.category}</div>
+                  <h3 className="text-2xl font-semibold text-[#24131f]">{item.title}</h3>
+                  <div className="flex items-center justify-between rounded-2xl border border-[#4a342e]/8 bg-[rgba(255,252,248,0.8)] px-4 py-3">
+                    <span className="text-sm text-[#746770]">Headline result</span>
+                    <span className="text-sm font-semibold text-[#9c6b46]">{item.result}</span>
                   </div>
                 </div>
               </GlassCard>
@@ -146,8 +146,8 @@ export function MetricsSection() {
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {metrics.map((metric) => (
               <div key={metric.label} className="rounded-[28px] border border-white/8 bg-white/[0.03] p-5">
-                <div className="text-4xl font-semibold text-[#24172f]">{metric.value}</div>
-                <div className="mt-3 text-sm text-[#6f6478]">{metric.label}</div>
+                <div className="text-4xl font-semibold text-[#24131f]">{metric.value}</div>
+                <div className="mt-3 text-sm text-[#746770]">{metric.label}</div>
               </div>
             ))}
           </div>
@@ -166,10 +166,10 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial, index) => (
             <MotionFade key={testimonial.author} delay={index * 0.08}>
               <GlassCard className="rounded-[30px]">
-                <p className="text-xl leading-9 text-[#24172f]">{testimonial.quote}</p>
+                <p className="text-xl leading-9 text-[#24131f]">{testimonial.quote}</p>
                 <div className="mt-8">
-                  <div className="font-medium text-[#24172f]">{testimonial.author}</div>
-                  <div className="text-sm text-[#6f6478]">{testimonial.role}</div>
+                  <div className="font-medium text-[#24131f]">{testimonial.author}</div>
+                  <div className="text-sm text-[#746770]">{testimonial.role}</div>
                 </div>
               </GlassCard>
             </MotionFade>
@@ -191,17 +191,17 @@ export function PricingPreviewSection() {
               <GlassCard className="h-full rounded-[30px]">
                 <div className="space-y-6">
                   <div>
-                    <div className="text-sm uppercase tracking-[0.26em] text-[#8f7d86]">{tier.name}</div>
-                    <div className="mt-4 text-4xl font-semibold text-[#24172f]">
+                    <div className="text-sm uppercase tracking-[0.26em] text-[#93827c]">{tier.name}</div>
+                    <div className="mt-4 text-4xl font-semibold text-[#24131f]">
                       {tier.price}
-                      <span className="text-base text-[#6f6478]">{tier.period}</span>
+                      <span className="text-base text-[#746770]">{tier.period}</span>
                     </div>
                   </div>
-                  <p className="text-sm leading-7 text-[#6f6478]">{tier.description}</p>
+                  <p className="text-sm leading-7 text-[#746770]">{tier.description}</p>
                   <div className="space-y-3">
                     {tier.features.map((feature) => (
-                      <div key={feature} className="flex items-center gap-3 text-sm text-[#35253f]">
-                        <CheckCircle2 className="h-4 w-4 text-[#b2513f]" />
+                      <div key={feature} className="flex items-center gap-3 text-sm text-[#3b2830]">
+                        <CheckCircle2 className="h-4 w-4 text-[#9c6b46]" />
                         {feature}
                       </div>
                     ))}
@@ -226,9 +226,9 @@ export function BlogPreviewSection() {
             <MotionFade key={post.title} delay={index * 0.08}>
               <GlassCard className="h-full rounded-[30px]">
                 <div className="space-y-6">
-                  <div className="text-xs uppercase tracking-[0.28em] text-[#8f7d86]">{post.category}</div>
-                  <h3 className="text-2xl font-semibold text-[#24172f]">{post.title}</h3>
-                  <div className="flex items-center justify-between text-sm text-[#6f6478]">
+                  <div className="text-xs uppercase tracking-[0.28em] text-[#93827c]">{post.category}</div>
+                  <h3 className="text-2xl font-semibold text-[#24131f]">{post.title}</h3>
+                  <div className="flex items-center justify-between text-sm text-[#746770]">
                     <span>{post.readTime}</span>
                     <ArrowRight className="h-4 w-4" />
                   </div>
@@ -252,8 +252,8 @@ export function FaqPreviewSection() {
             <MotionFade key={faq.question} delay={index * 0.06}>
               <GlassCard className="rounded-[28px]">
                 <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-[#24172f]">{faq.question}</h3>
-                  <p className="text-sm leading-7 text-[#6f6478]">{faq.answer}</p>
+                  <h3 className="text-lg font-semibold text-[#24131f]">{faq.question}</h3>
+                  <p className="text-sm leading-7 text-[#746770]">{faq.answer}</p>
                 </div>
               </GlassCard>
             </MotionFade>
@@ -268,14 +268,14 @@ export function FinalCtaSection() {
   return (
     <section className="section-space pt-8">
       <div className="container-shell">
-        <GlassCard className="rounded-[36px] bg-gradient-to-br from-[#fffdfb] via-[#fff7f0] to-[#ffe5da] px-8 py-10 sm:px-10 sm:py-14">
+        <GlassCard className="rounded-[36px] bg-gradient-to-br from-[#fffdfb] via-[#f8f0e9] to-[#ecdccb] px-8 py-10 sm:px-10 sm:py-14">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl space-y-4">
-              <div className="text-xs uppercase tracking-[0.3em] text-[#b2513f]">Final CTA</div>
-              <h2 className="text-4xl font-semibold tracking-tight text-[#24172f] sm:text-5xl">
+              <div className="text-xs uppercase tracking-[0.3em] text-[#9c6b46]">Final CTA</div>
+              <h2 className="text-4xl font-semibold tracking-tight text-[#24131f] sm:text-5xl">
                 Ready to upgrade from scattered marketing to a premium growth machine?
               </h2>
-              <p className="text-base leading-8 text-[#6f6478]">
+              <p className="text-base leading-8 text-[#746770]">
                 Let&apos;s design the strategy, creative system, and reporting workflow your brand actually deserves.
               </p>
             </div>

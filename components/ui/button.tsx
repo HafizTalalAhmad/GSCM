@@ -11,11 +11,11 @@ type ButtonProps = {
 
 const variants = {
   primary:
-    "bg-gradient-to-r from-[#26203c] via-[#5b4bc7] to-[#f08a68] text-white shadow-soft hover:scale-[1.01]",
+    "bg-gradient-to-r from-[#281a27] via-[#5a415d] to-[#b88462] text-white shadow-soft hover:scale-[1.01]",
   secondary:
-    "border border-[#2f2336]/12 bg-white/70 text-[#24172f] hover:bg-white/90",
+    "border border-[#4a342e]/12 bg-white/70 text-[#24131f] hover:bg-white/90",
   ghost:
-    "text-[#6f6478] hover:text-[#24172f]",
+    "text-[#746770] hover:text-[#24131f]",
 };
 
 export function Button({
