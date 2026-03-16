@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-hero-radial">
+    <div className="marketing-theme">
       <SiteHeader />
       {children}
       <SiteFooter />

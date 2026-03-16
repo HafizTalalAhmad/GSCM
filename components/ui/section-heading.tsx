@@ -12,11 +12,11 @@ export function SectionHeading({
   return (
     <div className="max-w-3xl space-y-5">
       <Badge>{eyebrow}</Badge>
-      <h2 className="max-w-3xl text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+      <h2 className="marketing-title max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
         {title}
       </h2>
       {description ? (
-        <p className="max-w-2xl text-base leading-8 text-muted sm:text-lg">{description}</p>
+        <p className="marketing-copy max-w-2xl text-base leading-8 sm:text-lg">{description}</p>
       ) : null}
     </div>
   );
