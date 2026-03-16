@@ -11,7 +11,7 @@ const contactSchema = z.object({
   name: z.string().min(2, "Please enter your name."),
   email: z.string().email("Please enter a valid email."),
   company: z.string().min(2, "Please enter your company or brand."),
-  projectBrief: z.string().min(20, "Please share a bit more detail."),
+  projectBrief: z.string().min(10, "Please share a bit more detail."),
 });
 
 const bookingSchema = z.object({
@@ -19,7 +19,7 @@ const bookingSchema = z.object({
   email: z.string().email("Please enter a valid email."),
   preferredDate: z.string().min(2, "Please choose a preferred date."),
   timezone: z.string().min(2, "Please enter your timezone."),
-  goals: z.string().min(20, "Please tell us more about your goals."),
+  goals: z.string().min(10, "Please tell us more about your goals."),
 });
 
 async function deliverSubmission(
@@ -49,16 +49,8 @@ async function deliverSubmission(
   }
 }
 
-export async function submitContactLead(
-  _prevState: FormState,
-  formData: FormData,
-): Promise<FormState> {
-  const parsed = contactSchema.safeParse({
-    name: formData.get("name"),
-    email: formData.get("email"),
-    company: formData.get("company"),
-    projectBrief: formData.get("projectBrief"),
-  });
+export async function submitContactPayload(payload: Record<string, string>): Promise<FormState> {
+  const parsed = contactSchema.safeParse(payload);
 
   if (!parsed.success) {
     return {
@@ -83,17 +75,8 @@ export async function submitContactLead(
   }
 }
 
-export async function submitBookingLead(
-  _prevState: FormState,
-  formData: FormData,
-): Promise<FormState> {
-  const parsed = bookingSchema.safeParse({
-    name: formData.get("name"),
-    email: formData.get("email"),
-    preferredDate: formData.get("preferredDate"),
-    timezone: formData.get("timezone"),
-    goals: formData.get("goals"),
-  });
+export async function submitBookingPayload(payload: Record<string, string>): Promise<FormState> {
+  const parsed = bookingSchema.safeParse(payload);
 
   if (!parsed.success) {
     return {
@@ -116,4 +99,29 @@ export async function submitBookingLead(
       message: "We could not deliver your booking request right now. Please try again.",
     };
   }
+}
+
+export async function submitContactLead(
+  _prevState: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  return submitContactPayload({
+    name: String(formData.get("name") || ""),
+    email: String(formData.get("email") || ""),
+    company: String(formData.get("company") || ""),
+    projectBrief: String(formData.get("projectBrief") || ""),
+  });
+}
+
+export async function submitBookingLead(
+  _prevState: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  return submitBookingPayload({
+    name: String(formData.get("name") || ""),
+    email: String(formData.get("email") || ""),
+    preferredDate: String(formData.get("preferredDate") || ""),
+    timezone: String(formData.get("timezone") || ""),
+    goals: String(formData.get("goals") || ""),
+  });
 }
