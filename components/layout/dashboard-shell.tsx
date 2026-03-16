@@ -1,6 +1,7 @@
 import { Bell, Search, Sparkles } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { cn } from "@/lib/utils";
+import { logoutAction } from "@/lib/actions/auth";
 import type { ReactNode } from "react";
 
 export function DashboardShell({
@@ -72,6 +73,11 @@ export function DashboardShell({
                   <Search className="h-4 w-4" />
                   Search projects
                 </div>
+                <form action={logoutAction}>
+                  <button className="rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm text-muted transition hover:text-white">
+                    Logout
+                  </button>
+                </form>
                 <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5">
                   <Bell className="h-4 w-4" />
                 </div>

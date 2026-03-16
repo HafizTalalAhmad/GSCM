@@ -29,7 +29,12 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden lg:block">
-          <Button href="/book-a-call">Book a Call</Button>
+          <div className="flex items-center gap-3">
+            <Button href="/login" variant="secondary">
+              Login
+            </Button>
+            <Button href="/book-a-call">Book a Call</Button>
+          </div>
         </div>
       </div>
     </header>

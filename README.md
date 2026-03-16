@@ -68,7 +68,18 @@ npm start
 2. Keep the framework preset as `Next.js`.
 3. Build command: `npm run build`
 4. Output setting: leave default for Next.js
-5. Deploy
+5. Add the environment variables from `.env.example`
+6. Deploy
+
+## Environment variables
+
+- `AUTH_SECRET`
+- `GSCM_ADMIN_EMAIL`
+- `GSCM_ADMIN_PASSWORD`
+- `GSCM_CLIENT_EMAIL`
+- `GSCM_CLIENT_PASSWORD`
+- `LEADS_WEBHOOK_URL`
+- `BOOKING_WEBHOOK_URL`
 
 ## Project structure
 
@@ -82,4 +93,6 @@ npm start
 ## Notes
 
 - The homepage and main client/admin dashboards are production-style layouts.
-- Sub-pages are scaffolded and ready for live data, CMS wiring, auth, and backend integration.
+- Contact and booking forms use server actions with webhook-ready delivery.
+- Dashboard routes are protected by JWT cookie auth via middleware.
+- Sub-pages are scaffolded and ready for live data, CMS wiring, and backend integration.
