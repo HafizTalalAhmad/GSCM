@@ -152,3 +152,25 @@ What still needs implementation:
 - dashboard charts reading from `campaign_daily_metrics`
 
 See [integrations.md](/abs/path/c:/Users/T/Music/GSCM/GSCM/docs/integrations.md) for the real-world architecture and rollout sequence.
+
+## Meta Ads first step now included
+
+The first live integration step is now wired:
+
+- admin settings page can start a Meta OAuth connection for a selected client
+- Meta OAuth callback exchanges the authorization code for a token
+- accessible Meta ad accounts are fetched and stored in `external_accounts`
+
+Before using it, make sure Vercel has:
+
+- `META_APP_ID`
+- `META_APP_SECRET`
+- `META_REDIRECT_URI`
+
+`META_REDIRECT_URI` must point to:
+
+- `/api/integrations/meta/callback`
+
+Example:
+
+- `https://your-domain.vercel.app/api/integrations/meta/callback`

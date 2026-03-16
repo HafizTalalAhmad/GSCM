@@ -2,7 +2,13 @@ import "server-only";
 
 import { unstable_noStore as noStore } from "next/cache";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
-import type { CampaignRecord, CampaignStatus, ClientRecord } from "@/lib/platform-types";
+import type {
+  CampaignRecord,
+  CampaignStatus,
+  ClientRecord,
+  ExternalAccountRecord,
+  SocialPlatform,
+} from "@/lib/platform-types";
 
 function mapClient(row: {
   id: string;
@@ -50,6 +56,28 @@ function mapCampaign(row: {
   };
 }
 
+function mapExternalAccount(row: {
+  id: string;
+  client_id: string;
+  platform: SocialPlatform;
+  external_account_id: string;
+  account_name: string;
+  status: "connected" | "expired" | "revoked";
+  last_synced_at: string | null;
+  created_at: string;
+}): ExternalAccountRecord {
+  return {
+    id: row.id,
+    clientId: row.client_id,
+    platform: row.platform,
+    externalAccountId: row.external_account_id,
+    accountName: row.account_name,
+    status: row.status,
+    lastSyncedAt: row.last_synced_at ?? "",
+    createdAt: row.created_at,
+  };
+}
+
 export async function getAllClients(): Promise<ClientRecord[]> {
   noStore();
 
@@ -72,6 +100,27 @@ export async function getAllClients(): Promise<ClientRecord[]> {
   }
 
   return data.map(mapClient);
+}
+
+export async function getClientById(clientId: string): Promise<ClientRecord | null> {
+  noStore();
+
+  if (!isSupabaseConfigured() || !clientId) {
+    return null;
+  }
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase.from("clients").select("*").eq("id", clientId).single();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return mapClient(data);
 }
 
 export async function getAllCampaigns(): Promise<CampaignRecord[]> {
@@ -142,6 +191,101 @@ export async function getCampaignById(campaignId: string): Promise<CampaignRecor
   }
 
   return mapCampaign(data);
+}
+
+export async function getExternalAccountsByClientId(clientId: string): Promise<ExternalAccountRecord[]> {
+  noStore();
+
+  if (!isSupabaseConfigured() || !clientId) {
+    return [];
+  }
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("external_accounts")
+    .select("id, client_id, platform, external_account_id, account_name, status, last_synced_at, created_at")
+    .eq("client_id", clientId)
+    .order("created_at", { ascending: false });
+
+  if (error || !data) {
+    return [];
+  }
+
+  return data.map(mapExternalAccount);
+}
+
+export async function getAllExternalAccounts(): Promise<ExternalAccountRecord[]> {
+  noStore();
+
+  if (!isSupabaseConfigured()) {
+    return [];
+  }
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("external_accounts")
+    .select("id, client_id, platform, external_account_id, account_name, status, last_synced_at, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error || !data) {
+    return [];
+  }
+
+  return data.map(mapExternalAccount);
+}
+
+export async function upsertExternalAccounts(args: {
+  clientId: string;
+  platform: SocialPlatform;
+  accessToken: string;
+  refreshToken?: string;
+  tokenExpiresAt?: string;
+  accounts: Array<{
+    externalAccountId: string;
+    accountName: string;
+    status: "connected" | "expired" | "revoked";
+  }>;
+}) {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    throw new Error("Supabase is not configured.");
+  }
+
+  if (!args.accounts.length) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("external_accounts")
+    .upsert(
+      args.accounts.map((account) => ({
+        client_id: args.clientId,
+        platform: args.platform,
+        external_account_id: account.externalAccountId,
+        account_name: account.accountName,
+        access_token: args.accessToken,
+        refresh_token: args.refreshToken ?? "",
+        token_expires_at: args.tokenExpiresAt ?? null,
+        status: account.status,
+        last_synced_at: new Date().toISOString(),
+      })),
+      { onConflict: "platform,external_account_id" },
+    )
+    .select("id, client_id, platform, external_account_id, account_name, status, last_synced_at, created_at");
+
+  if (error || !data) {
+    throw new Error(error?.message || "Could not save external accounts.");
+  }
+
+  return data.map(mapExternalAccount);
 }
 
 export async function insertClient(input: Omit<ClientRecord, "id" | "createdAt">) {
