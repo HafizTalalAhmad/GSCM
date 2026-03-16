@@ -143,6 +143,7 @@ export const faqs = [
 ];
 
 export const clientSidebar = [
+  { label: "Overview", href: "/dashboard/client" },
   { label: "Campaign Overview", href: "/dashboard/client" },
   { label: "Analytics", href: "/dashboard/client/analytics" },
   { label: "Content Calendar", href: "/dashboard/client/content-calendar" },
@@ -154,6 +155,7 @@ export const clientSidebar = [
 ];
 
 export const adminSidebar = [
+  { label: "Overview", href: "/dashboard/admin" },
   { label: "Manage Clients", href: "/dashboard/admin/clients" },
   { label: "Manage Leads", href: "/dashboard/admin/leads" },
   { label: "Manage Blog Posts", href: "/dashboard/admin/blog-posts" },
