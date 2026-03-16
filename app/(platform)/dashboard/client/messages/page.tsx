@@ -1,13 +1,26 @@
-import { DashboardPlaceholderPage } from "@/components/dashboard/placeholder-page";
+import { ClientMessagesPanel } from "@/components/dashboard/client-messages-panel";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { getCampaignsByClientEmail } from "@/lib/platform-data";
 import { clientSidebar } from "@/lib/site-data";
+import { getCurrentSession } from "@/lib/session";
+import { isSupabaseConfigured } from "@/lib/supabase";
 
-export default function ClientMessagesPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ClientMessagesPage() {
+  const session = await getCurrentSession();
+  const mode = isSupabaseConfigured() ? "supabase" : "local";
+  const campaigns =
+    mode === "supabase" ? await getCampaignsByClientEmail(session?.email ?? "") : [];
+
   return (
-    <DashboardPlaceholderPage
+    <DashboardShell
       title="Client Messages"
       subtitle="Keep campaign communication, update threads, and delivery notes organized by account."
       sidebarItems={clientSidebar}
       accent="brand"
-    />
+    >
+      <ClientMessagesPanel campaigns={campaigns} />
+    </DashboardShell>
   );
 }
