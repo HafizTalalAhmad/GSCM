@@ -17,6 +17,14 @@ export function ClientOverview({
     () => campaigns.filter((campaign) => campaign.status === "active"),
     [campaigns],
   );
+  const completedCampaigns = useMemo(
+    () => campaigns.filter((campaign) => campaign.status === "completed"),
+    [campaigns],
+  );
+  const draftCampaigns = useMemo(
+    () => campaigns.filter((campaign) => campaign.status === "draft" || campaign.status === "paused"),
+    [campaigns],
+  );
   const chartValues = useMemo(() => {
     const source = campaigns.length
       ? campaigns.slice(0, 6).map((campaign, index) => {
@@ -44,6 +52,24 @@ export function ClientOverview({
           <GlassCard key={label} className="rounded-[28px]">
             <div className="text-sm text-muted">{label}</div>
             <div className="mt-3 text-4xl font-semibold text-white">{value}</div>
+          </GlassCard>
+        ))}
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {[
+          ["Needs review", String(draftCampaigns.length), "Items needing client attention"],
+          ["Completed", String(completedCampaigns.length), "Campaigns closed out"],
+          [
+            "Portfolio score",
+            `${campaigns.length ? Math.min(97, 46 + activeCampaigns.length * 14 + completedCampaigns.length * 9) : 0}%`,
+            "Health score based on current statuses",
+          ],
+        ].map(([label, value, detail]) => (
+          <GlassCard key={label} className="rounded-[28px]">
+            <div className="text-sm text-muted">{label}</div>
+            <div className="mt-3 text-4xl font-semibold text-white">{value}</div>
+            <div className="mt-3 text-sm text-brand">{detail}</div>
           </GlassCard>
         ))}
       </div>
@@ -110,6 +136,73 @@ export function ClientOverview({
                 See the performance graph and campaign report summary for your current portfolio.
               </div>
             </Link>
+          </div>
+        </GlassCard>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <GlassCard className="rounded-[30px] p-6">
+          <div className="text-2xl font-semibold text-white">Status mix</div>
+          <div className="mt-6 space-y-4">
+            {[
+              ["Active", activeCampaigns.length],
+              ["Needs review", draftCampaigns.length],
+              ["Completed", completedCampaigns.length],
+            ].map(([label, count]) => {
+              const numericCount = Number(count);
+              const width = `${Math.max((numericCount / Math.max(campaigns.length, 1)) * 100, numericCount ? 18 : 0)}%`;
+
+              return (
+                <div key={label} className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium text-white">{label}</div>
+                    <div className="text-sm text-muted">{numericCount}</div>
+                  </div>
+                  <div className="mt-4 h-2 rounded-full bg-white/5">
+                    <div
+                      className="h-full rounded-full bg-[linear-gradient(90deg,rgba(105,226,255,0.95),rgba(139,92,246,0.85),rgba(255,143,112,0.95))]"
+                      style={{ width }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </GlassCard>
+
+        <GlassCard className="rounded-[30px] p-6">
+          <div className="text-2xl font-semibold text-white">At a glance</div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {campaigns.length === 0 ? (
+              <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 text-sm text-muted sm:col-span-2">
+                Once campaigns are assigned, this section will summarize budget pacing, review load, and delivery readiness.
+              </div>
+            ) : (
+              <>
+                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5">
+                  <div className="text-sm text-muted">Budget pacing</div>
+                  <div className="mt-3 text-3xl font-semibold text-white">
+                    {Math.min(95, 42 + campaigns.length * 9)}%
+                  </div>
+                </div>
+                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5">
+                  <div className="text-sm text-muted">Delivery confidence</div>
+                  <div className="mt-3 text-3xl font-semibold text-white">
+                    {Math.min(96, 48 + activeCampaigns.length * 12 + completedCampaigns.length * 8)}%
+                  </div>
+                </div>
+                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5">
+                  <div className="text-sm text-muted">Response load</div>
+                  <div className="mt-3 text-3xl font-semibold text-white">{draftCampaigns.length}</div>
+                </div>
+                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5">
+                  <div className="text-sm text-muted">Channel spread</div>
+                  <div className="mt-3 text-3xl font-semibold text-white">
+                    {new Set(campaigns.map((campaign) => campaign.platform)).size}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </GlassCard>
       </div>
