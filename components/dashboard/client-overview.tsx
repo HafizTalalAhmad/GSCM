@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo } from "react";
 import { GlassCard } from "@/components/ui/glass-card";
 import type { CampaignRecord } from "@/lib/platform-types";
@@ -84,16 +85,31 @@ export function ClientOverview({
         </GlassCard>
 
         <GlassCard className="rounded-[30px] p-6">
-          <div className="text-2xl font-semibold text-white">How approvals work</div>
+          <div className="text-2xl font-semibold text-white">Client actions</div>
           {mode === "local" ? (
             <div className="mt-4">
               <DatabaseNotice message="Supabase is not connected yet, so this client view only shows campaigns saved in the same browser." />
             </div>
           ) : null}
-          <div className="mt-6 space-y-4 text-sm leading-7 text-muted">
-            <p>Open the <span className="text-white">Approvals</span> tab from the sidebar.</p>
-            <p>Use <span className="text-white">Approve campaign</span> to move a draft or paused campaign into active status.</p>
-            <p>Use <span className="text-white">Request changes</span> to pause the campaign and send it back for revision.</p>
+          <div className="mt-6 grid gap-4">
+            <Link
+              className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 transition hover:bg-white/[0.05]"
+              href="/dashboard/client/approvals"
+            >
+              <div className="text-lg font-semibold text-white">Open approvals</div>
+              <div className="mt-2 text-sm leading-7 text-muted">
+                Review draft or paused campaigns and approve them or request changes.
+              </div>
+            </Link>
+            <Link
+              className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 transition hover:bg-white/[0.05]"
+              href="/dashboard/client/reports"
+            >
+              <div className="text-lg font-semibold text-white">Open reports</div>
+              <div className="mt-2 text-sm leading-7 text-muted">
+                See the performance graph and campaign report summary for your current portfolio.
+              </div>
+            </Link>
           </div>
         </GlassCard>
       </div>

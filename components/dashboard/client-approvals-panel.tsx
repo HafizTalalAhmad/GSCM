@@ -56,14 +56,24 @@ export function ClientApprovalsPanel({ campaigns }: { campaigns: CampaignRecord[
                   Review focus: {campaign.objective}
                 </div>
                 <div className="mt-4 flex flex-wrap gap-3">
-                  <button
-                    className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#24131f] transition hover:bg-white/90 disabled:opacity-50"
-                    onClick={() => handleDecision(campaign.id, "approve")}
-                    type="button"
-                    disabled={busyId === campaign.id || campaign.status === "active" || campaign.status === "completed"}
-                  >
-                    {campaign.status === "active" ? "Approved" : "Approve campaign"}
-                  </button>
+                  {campaign.status === "active" ? (
+                    <div className="rounded-full bg-emerald-400/15 px-4 py-2 text-sm font-semibold text-emerald-300">
+                      Already approved
+                    </div>
+                  ) : campaign.status === "completed" ? (
+                    <div className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white/80">
+                      Final approval complete
+                    </div>
+                  ) : (
+                    <button
+                      className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#24131f] transition hover:bg-white/90 disabled:opacity-50"
+                      onClick={() => handleDecision(campaign.id, "approve")}
+                      type="button"
+                      disabled={busyId === campaign.id}
+                    >
+                      {busyId === campaign.id ? "Saving..." : "Approve campaign"}
+                    </button>
+                  )}
                   <button
                     className="rounded-full border border-white/10 px-4 py-2 text-sm text-white transition hover:bg-white/5 disabled:opacity-50"
                     onClick={() => handleDecision(campaign.id, "changes")}
@@ -83,7 +93,8 @@ export function ClientApprovalsPanel({ campaigns }: { campaigns: CampaignRecord[
         <div className="text-2xl font-semibold text-white">Approval guide</div>
         <div className="mt-6 space-y-4 text-sm leading-7 text-muted">
           <p>Use this section to track what needs your sign-off before launch, restart, or closeout.</p>
-          <p>Use <span className="text-white">Approve campaign</span> to mark a campaign active for launch.</p>
+          <p>Only campaigns in <span className="text-white">draft</span> or <span className="text-white">paused</span> state need approval.</p>
+          <p>When a campaign is already active, you will see <span className="text-white">Already approved</span> instead of a clickable approval button.</p>
           <p>Use <span className="text-white">Request changes</span> to move it into paused status for revision.</p>
         </div>
       </GlassCard>
