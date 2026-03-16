@@ -1,18 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { GlassCard } from "@/components/ui/glass-card";
-import { loadPlatformState } from "@/components/dashboard/platform-store";
 import type { CampaignRecord } from "@/lib/platform-types";
 
-export function ClientReportsPanel({ clientEmail }: { clientEmail: string }) {
-  const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
-
-  useEffect(() => {
-    const state = loadPlatformState();
-    setCampaigns(state.campaigns.filter((campaign) => campaign.clientEmail.toLowerCase() === clientEmail.toLowerCase()));
-  }, [clientEmail]);
-
+export function ClientReportsPanel({ campaigns }: { campaigns: CampaignRecord[] }) {
   return (
     <GlassCard className="rounded-[30px] p-6">
       <div className="text-2xl font-semibold text-white">Campaign reports</div>

@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
+import {
+  createCampaignAction,
+  updateCampaignStatusAction,
+} from "@/lib/actions/platform";
 import {
   createCampaignRecord,
   loadPlatformState,
@@ -10,6 +15,7 @@ import {
   updateCampaignStatus,
 } from "@/components/dashboard/platform-store";
 import type { CampaignRecord, CampaignStatus, ClientRecord } from "@/lib/platform-types";
+import { DatabaseNotice } from "@/components/dashboard/database-notice";
 
 const platforms = [
   "Meta Ads",
@@ -31,17 +37,31 @@ const emptyForm = {
   notes: "",
 };
 
-export function AdminCampaignsManager() {
-  const [clients, setClients] = useState<ClientRecord[]>([]);
-  const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
+export function AdminCampaignsManager({
+  initialClients,
+  initialCampaigns,
+  mode,
+}: {
+  initialClients: ClientRecord[];
+  initialCampaigns: CampaignRecord[];
+  mode: "supabase" | "local";
+}) {
+  const router = useRouter();
+  const [clients, setClients] = useState<ClientRecord[]>(initialClients);
+  const [campaigns, setCampaigns] = useState<CampaignRecord[]>(initialCampaigns);
   const [formValues, setFormValues] = useState(emptyForm);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const state = loadPlatformState();
-    setClients(state.clients);
-    setCampaigns(state.campaigns);
-  }, []);
+    if (mode === "local") {
+      const state = loadPlatformState();
+      setClients(state.clients);
+      setCampaigns(state.campaigns);
+    } else {
+      setClients(initialClients);
+      setCampaigns(initialCampaigns);
+    }
+  }, [initialCampaigns, initialClients, mode]);
 
   const clientOptions = useMemo(() => clients.map((client) => client.email), [clients]);
 
@@ -57,8 +77,7 @@ export function AdminCampaignsManager() {
       return;
     }
 
-    const state = loadPlatformState();
-    const nextCampaign = createCampaignRecord({
+    const payload = {
       clientEmail: formValues.clientEmail,
       name: formValues.name,
       platform: formValues.platform,
@@ -67,23 +86,46 @@ export function AdminCampaignsManager() {
       startDate: formValues.startDate,
       status: formValues.status,
       notes: formValues.notes,
-    });
-
-    const nextState = {
-      ...state,
-      campaigns: [nextCampaign, ...state.campaigns],
     };
 
-    savePlatformState(nextState);
-    setCampaigns(nextState.campaigns);
-    setFormValues(emptyForm);
-    setMessage("Campaign saved.");
+    if (mode === "local") {
+      const state = loadPlatformState();
+      const nextCampaign = createCampaignRecord(payload);
+      const nextState = {
+        ...state,
+        campaigns: [nextCampaign, ...state.campaigns],
+      };
+
+      savePlatformState(nextState);
+      setCampaigns(nextState.campaigns);
+      setFormValues(emptyForm);
+      setMessage("Campaign saved locally in this browser.");
+      return;
+    }
+
+    void createCampaignAction(payload).then((result) => {
+      setMessage(result.message);
+      if (result.success) {
+        setFormValues(emptyForm);
+        router.refresh();
+      }
+    });
   }
 
   function changeStatus(campaignId: string, status: CampaignStatus) {
-    const nextState = updateCampaignStatus(loadPlatformState(), campaignId, status);
-    savePlatformState(nextState);
-    setCampaigns(nextState.campaigns);
+    if (mode === "local") {
+      const nextState = updateCampaignStatus(loadPlatformState(), campaignId, status);
+      savePlatformState(nextState);
+      setCampaigns(nextState.campaigns);
+      return;
+    }
+
+    void updateCampaignStatusAction(campaignId, status).then((result) => {
+      setMessage(result.message);
+      if (result.success) {
+        router.refresh();
+      }
+    });
   }
 
   return (
@@ -94,6 +136,11 @@ export function AdminCampaignsManager() {
         <p className="mt-3 text-sm leading-7 text-muted">
           This is where you decide which platform the campaign will run on and when it should start.
         </p>
+        {mode === "local" ? (
+          <div className="mt-4">
+            <DatabaseNotice message="Supabase is not connected yet, so campaigns are still being saved in this browser only." />
+          </div>
+        ) : null}
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <select className="w-full rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm" value={formValues.clientEmail} onChange={(event) => updateField("clientEmail", event.target.value)}>
             <option value="">Select client email</option>

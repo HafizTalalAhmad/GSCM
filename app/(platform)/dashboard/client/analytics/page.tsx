@@ -2,9 +2,14 @@ import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { clientSidebar } from "@/lib/site-data";
 import { getCurrentSession } from "@/lib/session";
 import { ClientAnalyticsPanel } from "@/components/dashboard/client-analytics-panel";
+import { getCampaignsByClientEmail } from "@/lib/platform-data";
+import { isSupabaseConfigured } from "@/lib/supabase";
 
 export default async function ClientAnalyticsPage() {
   const session = await getCurrentSession();
+  const mode = isSupabaseConfigured() ? "supabase" : "local";
+  const campaigns =
+    mode === "supabase" ? await getCampaignsByClientEmail(session?.email ?? "") : [];
 
   return (
     <DashboardShell
@@ -13,7 +18,7 @@ export default async function ClientAnalyticsPage() {
       sidebarItems={clientSidebar}
       accent="brand"
     >
-      <ClientAnalyticsPanel clientEmail={session?.email ?? ""} />
+      <ClientAnalyticsPanel campaigns={campaigns} />
     </DashboardShell>
   );
 }

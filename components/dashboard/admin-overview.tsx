@@ -1,21 +1,16 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
-import { loadPlatformState } from "@/components/dashboard/platform-store";
 import type { CampaignRecord, ClientRecord } from "@/lib/platform-types";
 
-export function AdminOverview() {
-  const [clients, setClients] = useState<ClientRecord[]>([]);
-  const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
-
-  useEffect(() => {
-    const state = loadPlatformState();
-    setClients(state.clients);
-    setCampaigns(state.campaigns);
-  }, []);
-
+export function AdminOverview({
+  clients,
+  campaigns,
+  mode,
+}: {
+  clients: ClientRecord[];
+  campaigns: CampaignRecord[];
+  mode: "supabase" | "local";
+}) {
   const activeCampaigns = campaigns.filter((campaign) => campaign.status === "active").length;
 
   return (
@@ -40,7 +35,9 @@ export function AdminOverview() {
             <div>
               <div className="text-2xl font-semibold text-white">Where to enter data</div>
               <p className="mt-3 text-sm leading-7 text-muted">
-                Use Manage Clients to add the client first, then use Manage Campaigns to assign the campaign, platform, budget, and status.
+                {mode === "supabase"
+                  ? "Use Manage Clients to add the client first, then use Manage Campaigns to assign the campaign, platform, budget, and status into the shared database."
+                  : "Use Manage Clients to add the client first, then use Manage Campaigns to assign the campaign, platform, budget, and status in local browser storage until Supabase is connected."}
               </p>
             </div>
           </div>

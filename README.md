@@ -80,6 +80,8 @@ npm start
 - `GSCM_CLIENT_PASSWORD`
 - `LEADS_WEBHOOK_URL`
 - `BOOKING_WEBHOOK_URL`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
 
 ## Project structure
 
@@ -95,4 +97,22 @@ npm start
 - The homepage and main client/admin dashboards are production-style layouts.
 - Contact and booking forms use server actions with webhook-ready delivery.
 - Dashboard routes are protected by JWT cookie auth via middleware.
-- Sub-pages are scaffolded and ready for live data, CMS wiring, and backend integration.
+- Dashboard campaign management supports two modes:
+- Without Supabase, client and campaign data falls back to browser-only local storage.
+- With Supabase configured, admin-created clients and campaigns are shared across devices.
+
+## Supabase setup
+
+1. Create a Supabase project.
+2. Open the SQL editor in Supabase.
+3. Run the schema from `supabase/schema.sql`.
+4. In Vercel, add:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+5. Redeploy the app.
+
+Once Supabase is connected:
+
+- Admin `Manage Clients` saves to the shared `clients` table
+- Admin `Manage Campaigns` saves to the shared `campaigns` table
+- Client dashboards load only campaigns assigned to the logged-in client email

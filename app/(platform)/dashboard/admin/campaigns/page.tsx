@@ -1,8 +1,16 @@
 import { AdminCampaignsManager } from "@/components/dashboard/admin-campaigns-manager";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { getAllCampaigns, getAllClients } from "@/lib/platform-data";
 import { adminSidebar } from "@/lib/site-data";
+import { isSupabaseConfigured } from "@/lib/supabase";
 
-export default function AdminCampaignsPage() {
+export default async function AdminCampaignsPage() {
+  const mode = isSupabaseConfigured() ? "supabase" : "local";
+  const [initialClients, initialCampaigns] =
+    mode === "supabase"
+      ? await Promise.all([getAllClients(), getAllCampaigns()])
+      : [[], []];
+
   return (
     <DashboardShell
       title="Manage Campaigns"
@@ -10,7 +18,11 @@ export default function AdminCampaignsPage() {
       sidebarItems={adminSidebar}
       accent="coral"
     >
-      <AdminCampaignsManager />
+      <AdminCampaignsManager
+        initialClients={initialClients}
+        initialCampaigns={initialCampaigns}
+        mode={mode}
+      />
     </DashboardShell>
   );
 }

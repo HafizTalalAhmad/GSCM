@@ -1,18 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { GlassCard } from "@/components/ui/glass-card";
-import { loadPlatformState } from "@/components/dashboard/platform-store";
 import type { CampaignRecord } from "@/lib/platform-types";
 
-export function ClientAnalyticsPanel({ clientEmail }: { clientEmail: string }) {
-  const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
-
-  useEffect(() => {
-    const state = loadPlatformState();
-    setCampaigns(state.campaigns.filter((campaign) => campaign.clientEmail.toLowerCase() === clientEmail.toLowerCase()));
-  }, [clientEmail]);
-
+export function ClientAnalyticsPanel({ campaigns }: { campaigns: CampaignRecord[] }) {
   const platformBreakdown = useMemo(() => {
     const counts = new Map<string, number>();
     campaigns.forEach((campaign) => {

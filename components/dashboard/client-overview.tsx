@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { GlassCard } from "@/components/ui/glass-card";
-import { loadPlatformState } from "@/components/dashboard/platform-store";
 import type { CampaignRecord } from "@/lib/platform-types";
+import { DatabaseNotice } from "@/components/dashboard/database-notice";
 
-export function ClientOverview({ clientEmail }: { clientEmail: string }) {
-  const [campaigns, setCampaigns] = useState<CampaignRecord[]>([]);
-
-  useEffect(() => {
-    const state = loadPlatformState();
-    setCampaigns(state.campaigns.filter((campaign) => campaign.clientEmail.toLowerCase() === clientEmail.toLowerCase()));
-  }, [clientEmail]);
-
+export function ClientOverview({
+  campaigns,
+  mode,
+}: {
+  campaigns: CampaignRecord[];
+  mode: "supabase" | "local";
+}) {
   const activeCampaigns = useMemo(
     () => campaigns.filter((campaign) => campaign.status === "active"),
     [campaigns],
@@ -36,6 +35,11 @@ export function ClientOverview({ clientEmail }: { clientEmail: string }) {
 
       <GlassCard className="rounded-[30px] p-6">
         <div className="text-2xl font-semibold text-white">Your campaigns</div>
+        {mode === "local" ? (
+          <div className="mt-4">
+            <DatabaseNotice message="Supabase is not connected yet, so this client view only shows campaigns saved in the same browser." />
+          </div>
+        ) : null}
         <div className="mt-6 space-y-4">
           {campaigns.length === 0 ? (
             <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 text-sm text-muted">
