@@ -1,13 +1,19 @@
-import { DashboardPlaceholderPage } from "@/components/dashboard/placeholder-page";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { clientSidebar } from "@/lib/site-data";
+import { getCurrentSession } from "@/lib/session";
+import { ClientAnalyticsPanel } from "@/components/dashboard/client-analytics-panel";
 
-export default function ClientAnalyticsPage() {
+export default async function ClientAnalyticsPage() {
+  const session = await getCurrentSession();
+
   return (
-    <DashboardPlaceholderPage
+    <DashboardShell
       title="Client Analytics"
-      subtitle="Drill into channel performance, campaign efficiency, attribution, and reporting snapshots."
+      subtitle="See budget totals, platform distribution, and the current campaign mix assigned to your account."
       sidebarItems={clientSidebar}
       accent="brand"
-    />
+    >
+      <ClientAnalyticsPanel clientEmail={session?.email ?? ""} />
+    </DashboardShell>
   );
 }
