@@ -1,5 +1,6 @@
 import "server-only";
 
+import { unstable_noStore as noStore } from "next/cache";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
 import type { CampaignRecord, CampaignStatus, ClientRecord } from "@/lib/platform-types";
 
@@ -50,6 +51,8 @@ function mapCampaign(row: {
 }
 
 export async function getAllClients(): Promise<ClientRecord[]> {
+  noStore();
+
   if (!isSupabaseConfigured()) {
     return [];
   }
@@ -72,6 +75,8 @@ export async function getAllClients(): Promise<ClientRecord[]> {
 }
 
 export async function getAllCampaigns(): Promise<CampaignRecord[]> {
+  noStore();
+
   if (!isSupabaseConfigured()) {
     return [];
   }
@@ -94,6 +99,8 @@ export async function getAllCampaigns(): Promise<CampaignRecord[]> {
 }
 
 export async function getCampaignsByClientEmail(clientEmail: string): Promise<CampaignRecord[]> {
+  noStore();
+
   if (!isSupabaseConfigured() || !clientEmail) {
     return [];
   }

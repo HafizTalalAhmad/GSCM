@@ -4,6 +4,8 @@ import { getAllCampaigns, getAllClients } from "@/lib/platform-data";
 import { adminSidebar } from "@/lib/site-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminCampaignsPage() {
   const mode = isSupabaseConfigured() ? "supabase" : "local";
   const [initialClients, initialCampaigns] =

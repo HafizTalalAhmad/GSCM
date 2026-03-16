@@ -5,6 +5,8 @@ import { clientSidebar } from "@/lib/site-data";
 import { getCurrentSession } from "@/lib/session";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 export default async function ClientContentCalendarPage() {
   const session = await getCurrentSession();
   const mode = isSupabaseConfigured() ? "supabase" : "local";

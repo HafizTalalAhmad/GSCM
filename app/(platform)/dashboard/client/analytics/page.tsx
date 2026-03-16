@@ -5,6 +5,8 @@ import { ClientAnalyticsPanel } from "@/components/dashboard/client-analytics-pa
 import { getCampaignsByClientEmail } from "@/lib/platform-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 export default async function ClientAnalyticsPage() {
   const session = await getCurrentSession();
   const mode = isSupabaseConfigured() ? "supabase" : "local";
