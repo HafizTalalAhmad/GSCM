@@ -123,6 +123,27 @@ export async function getCampaignsByClientEmail(clientEmail: string): Promise<Ca
   return data.map(mapCampaign);
 }
 
+export async function getCampaignById(campaignId: string): Promise<CampaignRecord | null> {
+  noStore();
+
+  if (!isSupabaseConfigured() || !campaignId) {
+    return null;
+  }
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase.from("campaigns").select("*").eq("id", campaignId).single();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return mapCampaign(data);
+}
+
 export async function insertClient(input: Omit<ClientRecord, "id" | "createdAt">) {
   const supabase = getSupabaseAdmin();
   if (!supabase) {

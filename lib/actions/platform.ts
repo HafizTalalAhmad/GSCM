@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getCurrentSession } from "@/lib/session";
-import { insertCampaign, insertClient, setCampaignStatus } from "@/lib/platform-data";
+import { getCampaignById, insertCampaign, insertClient, setCampaignStatus } from "@/lib/platform-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import type { CampaignStatus } from "@/lib/platform-types";
 
@@ -17,6 +17,12 @@ function ensureAdmin(session: Awaited<ReturnType<typeof getCurrentSession>>) {
   }
 }
 
+function ensureSignedIn(session: Awaited<ReturnType<typeof getCurrentSession>>) {
+  if (!session) {
+    throw new Error("You must be signed in.");
+  }
+}
+
 function revalidatePlatformPages() {
   revalidatePath("/dashboard/admin");
   revalidatePath("/dashboard/admin/clients");
@@ -25,6 +31,10 @@ function revalidatePlatformPages() {
   revalidatePath("/dashboard/client/analytics");
   revalidatePath("/dashboard/client/content-calendar");
   revalidatePath("/dashboard/client/reports");
+  revalidatePath("/dashboard/client/approvals");
+  revalidatePath("/dashboard/client/billing");
+  revalidatePath("/dashboard/client/messages");
+  revalidatePath("/dashboard/client/assets");
 }
 
 export async function createClientAction(payload: {
@@ -101,6 +111,48 @@ export async function updateCampaignStatusAction(
     return {
       success: false,
       message: error instanceof Error ? error.message : "Could not update campaign status.",
+    };
+  }
+}
+
+export async function submitClientApprovalAction(
+  campaignId: string,
+  decision: "approve" | "changes",
+): Promise<PlatformActionState> {
+  const session = await getCurrentSession();
+  ensureSignedIn(session);
+  const activeSession = session!;
+
+  if (!isSupabaseConfigured()) {
+    return { success: false, message: "Supabase is not configured yet." };
+  }
+
+  try {
+    const campaign = await getCampaignById(campaignId);
+
+    if (!campaign) {
+      return { success: false, message: "Campaign not found." };
+    }
+
+    if (activeSession.role === "client" && campaign.clientEmail !== activeSession.email) {
+      return { success: false, message: "This campaign does not belong to your client account." };
+    }
+
+    const nextStatus: CampaignStatus = decision === "approve" ? "active" : "paused";
+    await setCampaignStatus(campaignId, nextStatus);
+    revalidatePlatformPages();
+
+    return {
+      success: true,
+      message:
+        decision === "approve"
+          ? "Campaign approved and marked active."
+          : "Changes requested. Campaign moved to paused for revision.",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Could not submit approval.",
     };
   }
 }
