@@ -91,6 +91,8 @@ npm start
 - `components/marketing/` homepage sections
 - `components/dashboard/` dashboard widgets and placeholders
 - `lib/` shared data and helpers
+- `lib/integrations/` provider scaffolds for Meta, TikTok, and LinkedIn sync
+- `docs/` implementation notes and architecture references
 
 ## Notes
 
@@ -107,8 +109,17 @@ npm start
 2. Open the SQL editor in Supabase.
 3. Run the schema from `supabase/schema.sql`.
 4. In Vercel, add:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `META_APP_ID`
+- `META_APP_SECRET`
+- `META_REDIRECT_URI`
+- `TIKTOK_APP_ID`
+- `TIKTOK_APP_SECRET`
+- `TIKTOK_REDIRECT_URI`
+- `LINKEDIN_CLIENT_ID`
+- `LINKEDIN_CLIENT_SECRET`
+- `LINKEDIN_REDIRECT_URI`
 5. Redeploy the app.
 
 Once Supabase is connected:
@@ -116,3 +127,28 @@ Once Supabase is connected:
 - Admin `Manage Clients` saves to the shared `clients` table
 - Admin `Manage Campaigns` saves to the shared `campaigns` table
 - Client dashboards load only campaigns assigned to the logged-in client email
+
+## Real social integrations
+
+The repo now includes a production-oriented integration scaffold for:
+
+- Meta Ads
+- TikTok Ads
+- LinkedIn Ads
+
+What is included now:
+
+- provider interface definitions
+- provider registry
+- OAuth authorization URL builders
+- Supabase schema for connected accounts, external campaign mapping, daily metrics, and sync runs
+
+What still needs implementation:
+
+- live OAuth callback handlers
+- token exchange calls
+- token refresh logic
+- provider campaign sync jobs
+- dashboard charts reading from `campaign_daily_metrics`
+
+See [integrations.md](/abs/path/c:/Users/T/Music/GSCM/GSCM/docs/integrations.md) for the real-world architecture and rollout sequence.

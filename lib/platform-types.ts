@@ -10,6 +10,8 @@ export type ClientRecord = {
 
 export type CampaignStatus = "draft" | "active" | "paused" | "completed";
 
+export type SocialPlatform = "Meta Ads" | "TikTok Ads" | "LinkedIn Ads";
+
 export type CampaignRecord = {
   id: string;
   clientEmail: string;
@@ -26,4 +28,47 @@ export type CampaignRecord = {
 export type PlatformState = {
   clients: ClientRecord[];
   campaigns: CampaignRecord[];
+};
+
+export type ExternalAccountRecord = {
+  id: string;
+  clientId: string;
+  platform: SocialPlatform;
+  externalAccountId: string;
+  accountName: string;
+  status: "connected" | "expired" | "revoked";
+  lastSyncedAt: string;
+  createdAt: string;
+};
+
+export type CampaignMetricRecord = {
+  id: string;
+  campaignId: string;
+  platform: SocialPlatform;
+  metricDate: string;
+  impressions: number;
+  clicks: number;
+  spend: number;
+  conversions: number;
+  ctr: number;
+  cpc: number;
+  cpm: number;
+  roas: number;
+  createdAt: string;
+};
+
+export type ProviderCampaignSnapshot = {
+  externalCampaignId: string;
+  campaignName: string;
+  status: string;
+  platform: SocialPlatform;
+  impressions: number;
+  clicks: number;
+  spend: number;
+  conversions: number;
+  ctr: number;
+  cpc: number;
+  cpm: number;
+  roas: number;
+  date: string;
 };
