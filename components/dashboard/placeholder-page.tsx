@@ -9,7 +9,7 @@ export function DashboardPlaceholderPage({
 }: {
   title: string;
   subtitle: string;
-  sidebarItems: string[];
+  sidebarItems: Array<{ label: string; href: string }>;
   accent: "brand" | "coral";
 }) {
   return (

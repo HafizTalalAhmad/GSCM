@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Bell, Search, Sparkles } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { cn } from "@/lib/utils";
@@ -13,10 +17,11 @@ export function DashboardShell({
 }: {
   title: string;
   subtitle: string;
-  sidebarItems: string[];
+  sidebarItems: Array<{ label: string; href: string }>;
   accent: "brand" | "coral";
   children: ReactNode;
 }) {
+  const pathname = usePathname();
   const accentClass =
     accent === "brand"
       ? "from-brand/30 via-brand/5 to-transparent"
@@ -36,16 +41,19 @@ export function DashboardShell({
             </div>
           </div>
           <div className="space-y-2">
-            {sidebarItems.map((item, index) => (
-              <div
-                key={item}
+            {sidebarItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
                 className={cn(
-                  "rounded-2xl px-4 py-3 text-sm transition",
-                  index === 0 ? "bg-white/10 text-white" : "text-muted hover:bg-white/5 hover:text-white",
+                  "block rounded-2xl px-4 py-3 text-sm transition",
+                  pathname === item.href
+                    ? "bg-white/10 text-white"
+                    : "text-muted hover:bg-white/5 hover:text-white",
                 )}
               >
-                {item}
-              </div>
+                {item.label}
+              </Link>
             ))}
           </div>
           <GlassCard className="mt-8 p-5">

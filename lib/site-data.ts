@@ -143,24 +143,24 @@ export const faqs = [
 ];
 
 export const clientSidebar = [
-  "Campaign Overview",
-  "Analytics",
-  "Content Calendar",
-  "Reports",
-  "Approvals",
-  "Billing",
-  "Messages",
-  "Asset Library",
+  { label: "Campaign Overview", href: "/dashboard/client" },
+  { label: "Analytics", href: "/dashboard/client/analytics" },
+  { label: "Content Calendar", href: "/dashboard/client/content-calendar" },
+  { label: "Reports", href: "/dashboard/client/reports" },
+  { label: "Approvals", href: "/dashboard/client/approvals" },
+  { label: "Billing", href: "/dashboard/client/billing" },
+  { label: "Messages", href: "/dashboard/client/messages" },
+  { label: "Asset Library", href: "/dashboard/client/assets" },
 ];
 
 export const adminSidebar = [
-  "Manage Clients",
-  "Manage Leads",
-  "Manage Blog Posts",
-  "Manage Case Studies",
-  "Manage Campaigns",
-  "Manage Testimonials",
-  "Manage Services",
-  "Manage Contact Submissions",
-  "Settings",
+  { label: "Manage Clients", href: "/dashboard/admin/clients" },
+  { label: "Manage Leads", href: "/dashboard/admin/leads" },
+  { label: "Manage Blog Posts", href: "/dashboard/admin/blog-posts" },
+  { label: "Manage Case Studies", href: "/dashboard/admin/case-studies" },
+  { label: "Manage Campaigns", href: "/dashboard/admin/campaigns" },
+  { label: "Manage Testimonials", href: "/dashboard/admin/testimonials" },
+  { label: "Manage Services", href: "/dashboard/admin/services" },
+  { label: "Manage Contact Submissions", href: "/dashboard/admin/contact-submissions" },
+  { label: "Settings", href: "/dashboard/admin/settings" },
 ];
