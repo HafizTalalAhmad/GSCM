@@ -1,2 +1,13 @@
+.next
+node_modules
+out
+dist
+.vercel
+.env
+.env.local
 .git_ssh_config
 .git_known_hosts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
